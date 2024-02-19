@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Weather App</h1>
+    <input type="text" id="city" placeholder="Enter city">
+    <button onclick="getWeather()">Get Weather</button>
+    <div id="weather"></div>
+  </div>
+
+  <script>
+    function getWeather() {
+      const city = document.getElementById('city').value;
+      const apiKey = 'b6e6c33317aef697a7cbede2c60723e9'; // Replace with your OpenWeatherMap API key
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const weatherDiv = document.getElementById('weather');
+          const temperature = data.main.temp;
+          const description = data.weather[0].description;
+          weatherDiv.innerHTML = `<p>Temperature: ${temperature}°C</p><p>Description: ${description}</p>`;
+        })
+        .catch(error => {
+          console.error('Error fetching weather data:', error);
+          const weatherDiv = document.getElementById('weather');
+          weatherDiv.innerHTML = 'Error fetching weather data. Please try again later.';
+        });
+    }
+  </script>
+</body>
+</html>
